@@ -50,8 +50,8 @@
 
 ```text
 buildlog/
-├─ .env.example           # 필요한 환경 변수 이름만 기록, 비밀값 없음
 ├─ backend/
+│  ├─ .env.example        # 필요한 환경 변수 이름과 설명만 기록, 비밀값 없음 (실제 값은 backend/.env)
 │  ├─ requirements.txt
 │  ├─ alembic.ini
 │  ├─ alembic/            # 테이블 변경 기록(마이그레이션)
@@ -845,7 +845,7 @@ Phase 0 시점의 최신 안정 버전이며, 모두 위 Python·Node.js 버전�
 | --- | --- |
 | 백엔드 개발 서버 | `http://127.0.0.1:8000` |
 | 프론트엔드 개발 서버 | `http://127.0.0.1:5173` (`/api` 요청은 백엔드로 전달) |
-| 개발용 데이터베이스 | `database/buildlog.sqlite3` |
+| 개발용 데이터베이스 | Supabase PostgreSQL (`backend/.env`의 `DATABASE_URL`). 이전에 쓰던 `database/buildlog.sqlite3`는 삭제하지 않고 보관 |
 | 자동 테스트 데이터베이스 | 테스트마다 새로 만드는 임시 SQLite |
 | Python 가상환경 | `backend/.venv` |
 | 프론트엔드 언어 | JavaScript (`.jsx`) |
@@ -854,11 +854,11 @@ Phase 0 시점의 최신 안정 버전이며, 모두 위 Python·Node.js 버전�
 | 운영자 신고 확인 | 앱 안의 운영자 전용 신고 목록 화면 |
 | 오류 기록 생성 | 항상 미해결로 저장, 해결 처리는 만든 뒤에만 가능 |
 
-### 7.4 환경 변수
+### 7.4 환경 변수 (`backend/.env`)
 
 | 이름 | 용도 | 개발 기본값 |
 | --- | --- | --- |
-| `DATABASE_URL` | 데이터베이스 연결 주소 | 비워두면 `database/buildlog.sqlite3` (실행 위치와 관계없이 프로젝트 폴더 기준) |
+| `DATABASE_URL` | 데이터베이스 연결 주소 (Supabase Session pooler) | 없음, 필수. 비워두면 서버가 시작되지 않음 (SQLite로 자동 연결하지 않음) |
 | `SECRET_KEY` | 로그인 토큰 서명용 비밀값 | 없음, `.env`에만 저장 |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | 로그인 유지 시간(분) | `1440` |
 

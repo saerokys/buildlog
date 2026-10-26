@@ -2,9 +2,14 @@ from logging.config import fileConfig
 
 from alembic import context
 
-from app.core.config import get_settings
-from app.core.database import make_engine
-from app.models import Base
+from app.core.config import SettingsError, get_settings
+
+try:
+    from app.core.database import make_engine
+    from app.models import Base
+except SettingsError as error:
+    # backend/.env 설정이 없거나 잘못되면 긴 오류 대신 확인할 내용만 보여줍니다.
+    raise SystemExit(str(error)) from None
 
 config = context.config
 
@@ -15,8 +20,8 @@ target_metadata = Base.metadata
 
 
 def get_database_url() -> str:
-    # 테스트처럼 주소를 직접 넘긴 경우를 먼저 사용하고, 없으면 .env 설정을 사용합니다.
-    return config.get_main_option("sqlalchemy.url") or get_settings().database_url
+    # 테스트처럼 주소를 직접 넘긴 경우를 먼저 사용하고, 없으면 backend/.env 설정을 사용합니다.
+    return config.get_main_option("sqlalchemy.url") or get_settings().database_url.get_secret_value()
 
 
 def run_migrations_offline() -> None:
