@@ -21,9 +21,9 @@
 
 아래 목록 외의 패키지는 추가하기 전에 먼저 확인합니다.
 
-- 백엔드: `fastapi`, `uvicorn`, `sqlalchemy`, `alembic`, `pydantic-settings`, `pwdlib[argon2]`(비밀번호 암호화), `pyjwt`(로그인 상태 확인), `pytest`, `httpx`(테스트용)
+- 백엔드: `fastapi`, `uvicorn`, `sqlalchemy`, `alembic`, `pydantic-settings`, `pwdlib[argon2]`(비밀번호 암호화), `pyjwt`(로그인 상태 확인), `pytest`, `httpx2`(테스트용)
 - Supabase 연결 시 추가: `psycopg`(PostgreSQL 연결)
-- 프론트엔드: `react`, `react-dom`, `react-router`, `vite`, `@vitejs/plugin-react`(Vite에서 React 사용), `vitest`, `@testing-library/react`, `jsdom`(테스트용 가상 브라우저)
+- 프론트엔드: `react`, `react-dom`, `react-router`, `vite`, `@vitejs/plugin-react`(Vite에서 React 사용), `vitest`, `@testing-library/react`, `@testing-library/dom`(`@testing-library/react`가 필요로 함), `jsdom`(테스트용 가상 브라우저)
 
 ### 주요 구조 결정
 
@@ -828,7 +828,7 @@ Phase 0 시점의 최신 안정 버전이며, 모두 위 Python·Node.js 버전�
 | 백엔드 | pwdlib[argon2] | 0.3.1 |
 | 백엔드 | pyjwt | 2.15.1 |
 | 백엔드 테스트 | pytest | 9.1.1 |
-| 백엔드 테스트 | httpx | 0.28.1 |
+| 백엔드 테스트 | httpx2 | 2.16.0 (Phase 1에서 httpx 0.28.1 대신 사용, Starlette 권장) |
 | Supabase 연결 (Phase 13) | psycopg | 3.3.6 |
 | 프론트엔드 | react, react-dom | 19.3.1 |
 | 프론트엔드 | react-router | 8.5.0 |
@@ -836,6 +836,7 @@ Phase 0 시점의 최신 안정 버전이며, 모두 위 Python·Node.js 버전�
 | 프론트엔드 | @vitejs/plugin-react | 6.1.2 |
 | 프론트엔드 테스트 | vitest | 5.0.5 |
 | 프론트엔드 테스트 | @testing-library/react | 16.3.3 |
+| 프론트엔드 테스트 | @testing-library/dom | 10.4.2 |
 | 프론트엔드 테스트 | jsdom | 30.1.3 |
 
 ### 7.3 확정한 개발 설정
@@ -857,7 +858,7 @@ Phase 0 시점의 최신 안정 버전이며, 모두 위 Python·Node.js 버전�
 
 | 이름 | 용도 | 개발 기본값 |
 | --- | --- | --- |
-| `DATABASE_URL` | 데이터베이스 연결 주소 | `sqlite:///../database/buildlog.sqlite3` |
+| `DATABASE_URL` | 데이터베이스 연결 주소 | 비워두면 `database/buildlog.sqlite3` (실행 위치와 관계없이 프로젝트 폴더 기준) |
 | `SECRET_KEY` | 로그인 토큰 서명용 비밀값 | 없음, `.env`에만 저장 |
 | `ACCESS_TOKEN_EXPIRE_MINUTES` | 로그인 유지 시간(분) | `1440` |
 
