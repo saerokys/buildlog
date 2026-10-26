@@ -3,6 +3,14 @@ fastapi==0.162.0
 uvicorn==0.54.0
 pydantic-settings==2.16.1
 
+# 데이터베이스
+sqlalchemy==2.1.6
+alembic==1.20.1
+
+# 로그인 (비밀번호 암호화, 로그인 토큰)
+pwdlib[argon2]==0.3.1
+pyjwt==2.15.1
+
 # 테스트
 pytest==9.1.1
 httpx2==2.16.0
