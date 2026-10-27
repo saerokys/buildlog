@@ -2,3 +2,4 @@
 
 from app.accounts.models import User  # noqa: F401
 from app.core.database import Base  # noqa: F401
+from app.records.models import ErrorRecord, StudyRecord, Todo  # noqa: F401

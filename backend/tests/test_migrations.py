@@ -46,7 +46,15 @@ def test_postgresql_migration_sql_creates_tables_and_enables_rls():
     sql = output.getvalue()
     assert "CREATE TABLE users" in sql
     assert "is_admin BOOLEAN DEFAULT false NOT NULL" in sql
-    assert "ALTER TABLE users ENABLE ROW LEVEL SECURITY" in sql
+    for table in ("users", "study_records", "todos", "error_records"):
+        assert f"ALTER TABLE {table} ENABLE ROW LEVEL SECURITY" in sql
+    for table in ("study_records", "todos", "error_records"):
+        assert f"CREATE TABLE {table}" in sql
+        assert "FOREIGN KEY(author_id) REFERENCES users (id)" in sql
+    assert "created_at TIMESTAMP WITH TIME ZONE NOT NULL" in sql
+    assert "CONSTRAINT ck_error_records_resolved_requires_solution CHECK" in sql
+    # SQLite 전용 기본값('0')이 PostgreSQL SQL에 들어가지 않아야 합니다.
+    assert "DEFAULT '0'" not in sql and "DEFAULT 0" not in sql
     # 이미 적용한 변경을 기록하는 표도 함께 만듭니다.
     assert "CREATE TABLE alembic_version" in sql
 
